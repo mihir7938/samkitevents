@@ -22,7 +22,7 @@
 	  	<div class="container-fluid h-custom">
 			<div class="row d-flex justify-content-center align-items-center h-100">
 		  		<div class="col-md-9 col-lg-6 col-xl-5">
-					<h1>SAMKIT EVENTS</h1>
+					<h1><strong>SAMKIT EVENTS</strong></h1>
 		  		</div>
 		  		<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">       			  
 					<form id="form-login" name="loginform" class="form-login" action="{{route('authenticate')}}" method="POST">	  
