@@ -17,7 +17,7 @@ class UsersMiddleware
     public function handle($request, Closure $next)
     {
         $valid_request = false;
-        $url = url('?url='.$request->url());
+        $url = url('/adminlogin?url='.$request->url());
         if (auth()->check() && auth()->user()->role_id == Role::USER_ROLE_ID) {
             $valid_request = true;
         }

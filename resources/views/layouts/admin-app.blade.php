@@ -105,7 +105,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{route('logout')}}">
+                                <a class="dropdown-item" href="{{route('admin.logout')}}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -145,7 +145,7 @@
     <script src="{{asset('admin/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('admin/js/bootstrap-datepicker.js')}}"></script>
-    <script src="{{asset('js/validation-additional.js')}}"></script>
+    <script src="{{asset('admin/js/validation-additional.js')}}"></script>
     <script type="text/javascript">
         $('.custom-file-input').on('change', function(e) {
             if(e.target.files.length == 1) {

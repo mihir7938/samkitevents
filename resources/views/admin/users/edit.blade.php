@@ -35,6 +35,15 @@
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{$user->email}}">
                 </div>
                 <div class="form-group">
+                    <label for="role">Role*</label>
+                    <select class="form-control" id="role" name="role">
+                        <option value="">Select Role</option>
+                        @foreach($roles as $role)
+                            <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="active">Active</label>
                     <div class="group">
                         <input type="radio" id="yes" name="active" value="1" @if($user->status == 1) checked @endif>
@@ -67,6 +76,9 @@
                 email: {
                     required: true,
                     alphanumeric: true
+                },
+                role:{
+                    required: true
                 }
             },
             messages:{
@@ -79,7 +91,10 @@
                 email:{
                     required: "Please enter email.",
                     email: "Please provide a valid email."
-                }
+                },
+                role:{
+                    required: "Plese select role."
+                },
             }
         });
     });

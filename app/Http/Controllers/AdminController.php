@@ -46,7 +46,8 @@ class AdminController extends Controller {
     }
     public function addUser()
     {
-        return view('admin.users.add');
+        $roles = $this->userService->getAllRoles();
+        return view('admin.users.add')->with('roles', $roles);
     }
     public function saveUser(Request $request)
     {
@@ -59,10 +60,11 @@ class AdminController extends Controller {
     {
         try{
             $user = $this->userService->getUserById($id);
+            $roles = $this->userService->getAllRoles();
             if(!$user){
                 throw new BadRequestException('Invalid Request id');
             }
-            return view('admin.users.edit')->with('user', $user);
+            return view('admin.users.edit')->with('user', $user)->with('roles', $roles);
         }catch(\Exception $e){
             $request->session()->put('message', $e->getMessage());
             $request->session()->put('alert-type', 'alert-warning');
@@ -79,6 +81,7 @@ class AdminController extends Controller {
             $data['name'] = $request->name;
             $data['email'] = $request->email;
             $data['phone'] = $request->phone;
+            $data['role_id'] = $request->role;
             $data['status'] = $request->active;
             $this->userService->update($user, $data);
             $request->session()->put('message', 'User has been updated successfully.');

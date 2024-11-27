@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,15 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', [AuthController::class, 'getLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('authenticate');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('/', [PageController::class, 'index'])->name('index');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('/login', [AuthController::class, 'getLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('authenticate');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+});
 
 Route::group(['prefix' => 'password'], function () {
     Route::get('/forget', [AuthController::class, 'forgetPassword'])->name('forget_password');
@@ -26,6 +34,12 @@ Route::group(['prefix' => 'password'], function () {
     Route::post('/reset/new/{token}', [AuthController::class, 'postChangePassword'])->name('change_password');
 });
 
+Route::group(['prefix' => 'users', 'middleware' => 'user'], function () {
+    Route::get('/dashboard', [UserController::class, 'index'])->name('users.index');
+});
+
+Route::get('/adminlogin', [AuthController::class, 'getAdminLogin'])->name('admin.login');
+Route::post('/adminlogin', [AuthController::class, 'adminLogin'])->name('admin.authenticate');
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/users', [AdminController::class, 'getUsers'])->name('admin.users');
@@ -57,4 +71,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/yatriks/assign', [AdminController::class, 'assignYatriks'])->name('admin.yatriks.assign');
     Route::post('/fetch-yatriks', [AdminController::class, 'fetchYatriksByEvent'])->name('admin.yatriks.fetch');
     Route::post('/yatriks/assign/save', [AdminController::class, 'saveAssignYatriks'])->name('admin.yatriks.assign.save');
+    Route::get('/logout', [AuthController::class, 'adminLogout'])->name('admin.logout')->middleware('auth');
 });

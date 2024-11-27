@@ -17,7 +17,7 @@ class UserService
     {
         return DB::transaction(function () use ($request) {
             $user = new User();
-            $user->role_id = $this->role_id;
+            $user->role_id = $request->role_id;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
@@ -45,5 +45,9 @@ class UserService
     public function delete($user)
     {
         return $user->delete($user);
+    }
+    public function getAllRoles()
+    {
+        return Role::get(); 
     }
 }

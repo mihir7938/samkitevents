@@ -38,6 +38,15 @@
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"  maxlength="16">
                 </div>
                 <div class="form-group">
+                    <label for="role">Role*</label>
+                    <select class="form-control" id="role" name="role">
+                        <option value="">Select Role</option>
+                        @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="active">Active</label>
                     <div class="group">
                         <input type="radio" id="yes" name="active" value="1" checked>
@@ -74,6 +83,9 @@
                 password: {
                     required: true,
                     strong_password: true
+                },
+                role:{
+                    required: true
                 }
             },
             messages:{
@@ -89,6 +101,9 @@
                 },
                 password:{
                     required: "Plese enter password.",
+                },
+                role:{
+                    required: "Plese select role."
                 }
             }
         });

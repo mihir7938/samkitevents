@@ -20,21 +20,66 @@ class AuthController extends Controller
     public function __construct(AuthenticateService $authService) {
         $this->authService = $authService;
     }
+
+    public function getAdminLogin(Request $request)
+    {
+        if (!Auth::check()) {
+            return view('admin.auth.login');
+        }
+        $url = url('/admin/dashboard');
+        return redirect($url);
+    }
+
     public function getLogin(Request $request)
     {
         if (!Auth::check()) {
             return view('auth.login');
         }
-        if (Auth::check() && Auth::user()->role_id == Role::USER_ROLE_ID) {
-            $url = url('/users/profile');
-        } elseif (Auth::check() && Auth::user()->role_id == Role::ADMIN_ROLE_ID) {
-            $url = url('/admin/dashboard');
-        }
+        $url = url('/users/dashboard');
         return redirect($url);
     }
 
     /**
-     * Loigin user.
+     * Login admin.
+     *
+     * @param  LoginRequest
+     *
+     * @return redirect
+     */
+    public function adminLogin(LoginRequest $request)
+    {
+        try {
+            $input = [
+                'email' => $request->email,
+                'password' => $request->password,
+                'status' => true,
+                'role_id' => Role::ADMIN_ROLE_ID,
+            ];
+            $is_auth = Auth::attempt($input, $request->has('remember_me') ? true : false);
+            if ($is_auth) {
+                $user = User::find(Auth::user()->id);
+                if ($request->ajax()) {
+                    return response()->json(['status' => true]);
+                } else {
+                    $url = url('/admin/dashboard');
+                }
+                return redirect($url);
+            } else {
+                throw new \Exception('Invalid email or password, please try again.');
+            }
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['status' => false, 'message' => $e->getMessage()]);
+            } else {
+                $request->session()->put('message', $e->getMessage());
+                $request->session()->put('alert-type', 'alert-danger');
+                return redirect('/adminlogin');
+            }
+        }
+    }
+
+    /**
+     * Login user.
      *
      * @param  LoginRequest
      *
@@ -47,6 +92,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
                 'status' => true,
+                'role_id' => Role::USER_ROLE_ID,
             ];
             $is_auth = Auth::attempt($input, $request->has('remember_me') ? true : false);
             if ($is_auth) {
@@ -54,11 +100,7 @@ class AuthController extends Controller
                 if ($request->ajax()) {
                     return response()->json(['status' => true]);
                 } else {
-                    if ($user->role_id == Role::ADMIN_ROLE_ID) {
-                        $url = url('/admin/dashboard');
-                    } elseif ($user->role_id == Role::USER_ROLE_ID) {
-                        $url = url('/users/profile');
-                    }
+                    $url = url('/users/dashboard');
                 }
                 return redirect($url);
             } else {
@@ -70,7 +112,7 @@ class AuthController extends Controller
             } else {
                 $request->session()->put('message', $e->getMessage());
                 $request->session()->put('alert-type', 'alert-danger');
-                return redirect('/');
+                return redirect('/auth/login');
             }
         }
     }
@@ -83,6 +125,16 @@ class AuthController extends Controller
         $request->session()->put('message', 'Logged out successfully!');
         $request->session()->put('alert-type', 'alert-success');
         return redirect()->route('login');
+    }
+
+    public function adminLogout(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        Auth::logout();
+        $request->session()->flush();
+        $request->session()->put('message', 'Logged out successfully!');
+        $request->session()->put('alert-type', 'alert-success');
+        return redirect()->route('admin.login');
     }
 
     public function forgetPassword(Request $request)

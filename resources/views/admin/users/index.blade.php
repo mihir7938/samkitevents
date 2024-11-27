@@ -17,6 +17,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Mobile Number</th>
+                            <th>Role</th>
                             <th>Status</th>                
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Mobile Number</th>
+                            <th>Role</th>
                             <th>Status</th>
                         </tr>
                     </tfoot>
@@ -46,6 +48,7 @@
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->phone}}</td>
+                                <td>{{$user->role->name}}</td>
                                 <td>{{($user->status == 1) ? 'Active' : 'Not Active'}}</td>
                             </tr>
                         @endforeach
