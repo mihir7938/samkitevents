@@ -28,4 +28,8 @@ class YatraService
     {
         return Yatra::where('event_id', $event_id)->groupBy('day_id')->get();
     }
+    public function fetchYatriksByDay($event_id, $day_id)
+    {
+        return Yatra::where('event_id', $event_id)->where('day_id', $day_id)->get();
+    }
 }

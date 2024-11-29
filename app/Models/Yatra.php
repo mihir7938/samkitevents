@@ -26,4 +26,9 @@ class Yatra extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function yatrik()
+    {
+        return $this->belongsTo(Yatrik::class, 'yatrik_id', 'id');
+    }
 }

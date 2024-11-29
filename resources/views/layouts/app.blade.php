@@ -11,10 +11,18 @@
     <link rel="stylesheet" href="{{asset('css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <link rel="stylesheet" href="{{asset('css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/buttons.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
 	@yield('header')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="loader">
+        <div class="loader-inner">
+            <img src="{{asset('images/loading.gif')}}" alt="" style="width: 100%;">
+        </div>
+    </div>
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <ul class="navbar-nav">
@@ -33,6 +41,11 @@
                         </a>
                     </li>
                 @else
+                    <li class="nav-item">
+                        <a class="btn btn-primary mr-2" href="{{route('admin.login')}}">
+                            Admin Login
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{route('login')}}">
                             Login
@@ -54,6 +67,18 @@
                                 <a href="{{route('users.index')}}" class="nav-link {{(Route::currentRouteName() == 'users.index') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('users.yatriks')}}" class="nav-link {{(Route::currentRouteName() == 'users.yatriks') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Yatriks</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('users.attendance')}}" class="nav-link {{(Route::currentRouteName() == 'users.attendance') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-qrcode"></i>
+                                    <p>Attendance</p>
                                 </a>
                             </li>
                         @else
@@ -89,6 +114,14 @@
     </div>
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('js/jszip.min.js')}}"></script>
+    <script src="{{asset('js/buttons.html5.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
     <script src="{{asset('js/moment.min.js')}}"></script>
     <script src="{{asset('js/daterangepicker.js')}}"></script>

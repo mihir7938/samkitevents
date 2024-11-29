@@ -35,4 +35,8 @@ class YatrikService
     {
         return Yatrik::where('event_id', $event_id)->get();
     }
+    public function fetchInfoByMemberId($member_id)
+    {
+        return Yatrik::where('member_id', $member_id)->first();
+    }
 }

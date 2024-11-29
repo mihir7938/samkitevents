@@ -36,6 +36,12 @@ Route::group(['prefix' => 'password'], function () {
 
 Route::group(['prefix' => 'users', 'middleware' => 'user'], function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('users.index');
+    Route::get('/yatriks', [UserController::class, 'getYatriks'])->name('users.yatriks');
+    Route::post('/fetch-days', [UserController::class, 'fetchDaysByEvent'])->name('users.days.fetch');
+    Route::post('/fetch-yatriks', [UserController::class, 'fetchYatriksByDay'])->name('users.yatriks.fetch');
+    Route::get('/attendance', [UserController::class, 'attendance'])->name('users.attendance');
+    Route::post('/set-session', [UserController::class, 'setSession'])->name('users.setsession');
+    Route::post('/get-information', [UserController::class, 'getInformation'])->name('users.get.information');
 });
 
 Route::get('/adminlogin', [AuthController::class, 'getAdminLogin'])->name('admin.login');
