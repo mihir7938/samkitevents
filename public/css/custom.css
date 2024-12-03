@@ -42,3 +42,8 @@ label.error {
 .hidden {
   display: none;
 }
+@media (max-width: 767px) {
+  .w-50 {
+    width: 100% !important;
+  }
+}

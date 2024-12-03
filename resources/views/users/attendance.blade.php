@@ -56,7 +56,10 @@
                                     </div>
                                 @endif
                                 <div id="qr_code" style="@if(array_key_exists('event_id', $event_data) && array_key_exists('day_id', $event_data)) display: block; @endif">
-                                    @include('users.qr-code')
+                                    <video id="preview" class="w-50"></video>
+                                    <div id="qr_code_form">
+                                        @include('users.qr-code')
+                                    </div>
                                 </div>
                                 <div id="member_details">
                                     @if($member)
@@ -127,9 +130,9 @@
             },
             success: function (data) {
               $('.loader').hide();
-              $("#qr_code").html('');
               $("#qr_code").show();
-              $('#qr_code').append(data);
+              $("#qr_code_form").html('');
+              $('#qr_code_form').append(data);
             },
         });
     });
