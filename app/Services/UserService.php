@@ -17,7 +17,7 @@ class UserService
     {
         return DB::transaction(function () use ($request) {
             $user = new User();
-            $user->role_id = $request->role_id;
+            $user->role_id = $request->role;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
