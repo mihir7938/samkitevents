@@ -7,6 +7,7 @@ use App\Services\EventService;
 use App\Services\DayService;
 use App\Services\YatrikService;
 use App\Services\YatraService;
+use App\Models\Yatra;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,20 +67,41 @@ class UserController extends Controller
         return view('users.attendance')->with('events', $events)->with('days', $days)->with('event_data', $event_data)->with('member', $member);
     }
 
-    public function setSession(Request $request)
+    public function showQrCode(Request $request)
     {
-        $event_data = [
-            'event_id' => $request->event_id,
-            'day_id' => $request->day_id,
-        ];
-        $request->session()->put('event_data', $event_data);
-        return response()->json(['status' => true, 'event_data' => $event_data]);
-        //return view('users.qr-code')->render();
+        return view('users.qr-code')->render();
     }
 
     public function getInformation(Request $request)
     {
         $member = $this->yatrikService->fetchInfoByMemberId($request->member_id);
-        return view('users.get-information')->with('member', $member)->render();
+        if(!$member) {
+            return response()->json(['status' => false]);
+        } else {
+            return view('users.get-information')->with('member', $member)->render();
+        }
+    }
+
+    public function updateAttendance(Request $request)
+    {
+        try{
+            $member = $this->yatrikService->fetchInfoByMemberId($request->member_id);
+            if(!$member){
+                throw new BadRequestException('Invalid member id');
+            }
+            $event_data = [
+                'event_id' => $request->event_name,
+                'day_id' => $request->day_name,
+            ];
+            $request->session()->put('event_data', $event_data);
+            Yatra::where('yatrik_id', $member->id)->where('event_id', $request->event_name)->where('day_id', $request->day_name)->update(['attendance' => 1]);
+            $request->session()->put('message', 'Yatrik has been present successfully');
+            $request->session()->put('alert-type', 'alert-success');
+            return redirect()->route('users.attendance');
+        }catch(\Exception $e){
+            $request->session()->put('message', $e->getMessage());
+            $request->session()->put('alert-type', 'alert-warning');
+            return redirect()->route('users.attendance');
+        }
     }
 }

@@ -33,6 +33,12 @@ label.error {
 #attendance_section {
   display: none;
 }
+#qr_code {
+  display: none;
+}
 #member_details {
+  display: none;
+}
+.hidden {
   display: none;
 }

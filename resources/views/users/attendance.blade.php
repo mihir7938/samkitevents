@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <form id="fetch-yatrik-form" name="fetch-yatrik-form" class="fetch-yatrik-form" method="POST">
+                    <form id="fetch-yatrik-form" name="fetch-yatrik-form" class="fetch-yatrik-form" action="{{route('users.attendance.update')}}" method="POST">
                         @csrf
                         @include('shared.alert')
                         @if (count($errors) > 0)
@@ -28,7 +28,7 @@
                         @endif
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Event</h3>
+                                <h3 class="card-title">Scan QR Code</h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
@@ -55,31 +55,8 @@
                                         @include('users.fetch-days', ['days' => $days])
                                     </div>
                                 @endif
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" id="btnsubmit" name="btnsubmit">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                    <div id="attendance_section" style="@if(array_key_exists('event_id', $event_data) && array_key_exists('day_id', $event_data)) display: block; @endif">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Scan QR Code</h3>
-                            </div>
-                            <div class="card-body">
-                                {{--<video id="preview" width="50%"></video>--}}
-                                <div class="row align-items-end">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="member_id">Member ID*</label>
-                                            <input type="text" id="member_id" name="member_id" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-outline-primary" id="information" name="information">Get Information</button>
-                                        </div>
-                                    </div>
+                                <div id="qr_code" style="@if(array_key_exists('event_id', $event_data) && array_key_exists('day_id', $event_data)) display: block; @endif">
+                                    @include('users.qr-code')
                                 </div>
                                 <div id="member_details">
                                     @if($member)
@@ -87,8 +64,11 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="card-footer hidden">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -137,7 +117,28 @@
             },
         });
     });
+    $(document).on('change', '#day_name', function(){
+        $('.loader').show();
+        $.ajax({
+            url: "{{ route('users.qrcode') }}",
+            method: "POST",
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+              $('.loader').hide();
+              $("#qr_code").html('');
+              $("#qr_code").show();
+              $('#qr_code').append(data);
+            },
+        });
+    });
     $(document).on('click', '#information', function(){
+        if($("#member_id").val() == ''){
+            $("#member_id-error").html("Please enter member id.");
+            $("#member_id-error").show();
+            return false;
+        }
         $('.loader').show();
         $.ajax({
             url: "{{ route('users.get.information') }}",
@@ -150,9 +151,16 @@
             },
             success: function (data) {
                 $('.loader').hide();
-                $("#member_details").html('');
-                $("#member_details").show();
-                $('#member_details').append(data);
+                if(data.status == false) {
+                    $("#member_id-error").html("Member id not found.");
+                    $("#member_id-error").show();
+                } else {
+                    $("#member_id-error").hide();
+                    $("#member_details").html('');
+                    $("#member_details").show();
+                    $('#member_details').append(data);
+                    $(".card-footer").show();
+                }
             },
         });
     });  
@@ -165,6 +173,9 @@
                 day_name: {
                     required: true,
                 },
+                member_id: {
+                    required: true,
+                }
             },
             messages:{
                 event_name:{
@@ -172,31 +183,11 @@
                 },
                 day_name:{
                     required: "Plese select day.",
+                },
+                member_id: {
+                    required: "Please enter member id.",
                 }
-            },
-            submitHandler: function (form) {
-                $('.loader').show();
-                $.ajax({
-                    url: "{{ route('users.setsession') }}",
-                    method: "POST",
-                    headers: {
-                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                      'event_id' : $("#event_name").val(),
-                      'day_id' : $("#day_name").val(),
-                    },
-                    success: function (data) {
-                        $('.loader').hide();
-                        if(data.status == true) {
-                            $("#attendance_section").show();
-                        }
-                        /*$("#attendance_section").html('');
-                        $("#attendance_section").show();
-                        $('#attendance_section').append(data);*/
-                    },
-                });
-            },
+            }
         });
     })();
 </script>
