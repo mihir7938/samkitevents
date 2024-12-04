@@ -71,7 +71,7 @@
                       $("#yatrik_results").show();
                       $('#yatrik_results').append(data);
                       $('#dataTableYatrik').DataTable({
-                          "pageLength": 100,
+                          "paging": false,
                           "scrollY": 200,
                           "destroy": true, //use for reinitialize datatable
                       });
@@ -99,6 +99,9 @@
                     form.submit();
                 }
             });
+        });
+        $(document).on('change', '#selectAllCheckbox', function(){
+            $('.checkboxes').prop('checked', $(this).prop('checked'));
         });
     });
 </script>

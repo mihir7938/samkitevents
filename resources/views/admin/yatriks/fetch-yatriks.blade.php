@@ -7,6 +7,7 @@
             <table class="table table-bordered" id="dataTableYatrik" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th class="text-center">All <input type="checkbox" id="selectAllCheckbox"></th>
                         <th>Member ID</th>
                         <th>Name</th>
                         <th>Mobile No</th>
@@ -15,6 +16,7 @@
                 </thead>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th>Member ID</th>
                         <th>Name</th>
                         <th>Mobile No</th>
@@ -24,6 +26,7 @@
                 <tbody>
                     @foreach($yatriks as $yatrik)
                         <tr>
+                            <td class="text-center"><input type="checkbox" id="checkbox{{$yatrik->id}}" name="checkbox{{$yatrik->id}}" class="checkboxes"></td>
                             <td>{{$yatrik->member_id}}</td>
                             <td>{{$yatrik->name}}</td>
                             <td>{{$yatrik->mobile_number}}</td>
