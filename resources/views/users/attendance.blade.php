@@ -114,6 +114,8 @@
             },
             success: function (data) {
               $('.loader').hide();
+              $("#member_details").html('');
+              $("#member_id").val('');
               $("#day_results").html('');
               $("#day_results").show();
               $('#day_results').append(data);
@@ -130,6 +132,7 @@
             },
             success: function (data) {
               $('.loader').hide();
+              $("#member_details").html('');
               $("#qr_code").show();
               $("#qr_code_form").html('');
               $('#qr_code_form').append(data);

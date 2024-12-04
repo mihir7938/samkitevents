@@ -30,4 +30,11 @@ class DayService
     {
         return Day::where('event_id', $event_id)->get();
     }
+    public function fetchAssignDaysByEvent($event_id)
+    {
+        return Day::select('days.*')
+                ->join('yatra', 'days.id', '=', 'yatra.day_id')
+                ->where('days.event_id', $event_id)
+                ->groupBy('days.id')->get();
+    }
 }

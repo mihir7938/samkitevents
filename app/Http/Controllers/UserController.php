@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function fetchDaysByEvent(Request $request)
     {
-        $days = $this->dayService->fetchDaysByEvent($request->event_id);
+        $days = $this->dayService->fetchAssignDaysByEvent($request->event_id);
         return view('users.fetch-days')->with('days', $days)->render();
     }
 
@@ -62,7 +62,7 @@ class UserController extends Controller
         $member = [];
         if($request->session()->get('event_data')) {
             $event_data = $request->session()->get('event_data');
-            $days = $this->dayService->fetchDaysByEvent($event_data['event_id']);
+            $days = $this->dayService->fetchAssignDaysByEvent($event_data['event_id']);
         }
         return view('users.attendance')->with('events', $events)->with('days', $days)->with('event_data', $event_data)->with('member', $member);
     }
@@ -94,9 +94,21 @@ class UserController extends Controller
                 'day_id' => $request->day_name,
             ];
             $request->session()->put('event_data', $event_data);
-            Yatra::where('yatrik_id', $member->id)->where('event_id', $request->event_name)->where('day_id', $request->day_name)->update(['attendance' => 1]);
-            $request->session()->put('message', 'Yatrik has been present successfully');
-            $request->session()->put('alert-type', 'alert-success');
+            $check_yatrik = $this->yatraService->checkYatrik($member->id, $request->event_name, $request->day_name);
+            if($check_yatrik) {
+                $check_attendance = $this->yatraService->checkAttendance($member->id, $request->event_name, $request->day_name);
+                if(!$check_attendance) {
+                    $updatedata = Yatra::where('yatrik_id', $member->id)->where('event_id', $request->event_name)->where('day_id', $request->day_name)->update(['attendance' => 1]);
+                    $request->session()->put('message', 'Yatrik has been present successfully');
+                    $request->session()->put('alert-type', 'alert-success');
+                } else {
+                    $request->session()->put('message', 'Yatrik already present');
+                    $request->session()->put('alert-type', 'alert-danger');
+                }
+            } else {
+                $request->session()->put('message', 'Yatrik not found');
+                $request->session()->put('alert-type', 'alert-danger');
+            }
             return redirect()->route('users.attendance');
         }catch(\Exception $e){
             $request->session()->put('message', $e->getMessage());

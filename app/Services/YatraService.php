@@ -32,4 +32,22 @@ class YatraService
     {
         return Yatra::where('event_id', $event_id)->where('day_id', $day_id)->get();
     }
+    public function checkYatrik($yatrik_id, $event_id, $day_id)
+    {
+        $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
+        if($record) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function checkAttendance($yatrik_id, $event_id, $day_id)
+    {
+        $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
+        if($record->attendance == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

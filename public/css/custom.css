@@ -42,6 +42,9 @@ label.error {
 .hidden {
   display: none;
 }
+.alert, .alert-dismissible .close {
+  padding: .40rem 1.25rem;
+}
 @media (max-width: 767px) {
   .w-50 {
     width: 100% !important;
