@@ -17,6 +17,7 @@
                             <th>Action</th>
                             <th>Name</th>
                             <th>Member ID</th>
+                            <th>Yatrik ID</th>
                             <th>Mobile No</th>
                             <th>Event Name</th>
                         </tr>
@@ -26,6 +27,7 @@
                             <th>Action</th>
                             <th>Name</th>
                             <th>Member ID</th>
+                            <th>Yatrik ID</th>
                             <th>Mobile No</th>
                             <th>Event Name</th>
                         </tr>
@@ -46,6 +48,7 @@
                                 </td>
                                 <td>{{$yatrik->name}}</td>
                                 <td>{{$yatrik->member_id}}</td>
+                                <td>{{$yatrik->custom_yatrik_id}}</td>
                                 <td>{{$yatrik->mobile_number}}</td>
                                 <td>{{$yatrik->event->name}}</td>
                             </tr>

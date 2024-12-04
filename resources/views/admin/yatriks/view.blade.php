@@ -19,6 +19,10 @@
                     <div class="col-md-8"><span class="mr-2">:</span>{{$yatrik->event->name}}</div>
                 </div>
                 <div class="row">
+                    <div class="col-md-4"><strong><label>Yatrik ID</label></strong></div>
+                    <div class="col-md-8"><span class="mr-2">:</span>{{$yatrik->custom_yatrik_id}}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-4"><strong><label>Name</label></strong></div>
                     <div class="col-md-8"><span class="mr-2">:</span>{{$yatrik->name}}</div>
                 </div>

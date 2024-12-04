@@ -20,6 +20,7 @@ class Yatrik extends Model
     protected $fillable = [
         'member_id',
         'event_id',
+        'custom_yatrik_id',
         'name',
         'gender',
         'age',

@@ -39,8 +39,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="aadhar_number">Aadhar Number* (Ex - 999988889999)</label>
-                            <input type="text" class="form-control" id="aadhar_number" name="aadhar_number" placeholder="Enter Aadhar Number" value="{{$yatrik->aadhar_number}}">
+                            <label for="yatrik_id">Yatrik ID*</label>
+                            <input type="text" class="form-control" id="yatrik_id" name="yatrik_id" placeholder="Enter Yatrik ID" value="{{$yatrik->custom_yatrik_id}}">
                         </div>
                     </div>
                 </div>
@@ -94,8 +94,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="religious_method">Religious Method*</label>
-                            <input type="text" class="form-control" id="religious_method" name="religious_method" placeholder="Enter Religious Method" value="{{$yatrik->religious_method}}">
+                            <label for="aadhar_number">Aadhar Number* (Ex - 999988889999)</label>
+                            <input type="text" class="form-control" id="aadhar_number" name="aadhar_number" placeholder="Enter Aadhar Number" value="{{$yatrik->aadhar_number}}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -178,6 +178,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="religious_method">Religious Method*</label>
+                            <input type="text" class="form-control" id="religious_method" name="religious_method" placeholder="Enter Religious Method" value="{{$yatrik->religious_method}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="image">Profile Photo* (allowed only JPG,JPEG &amp; PNG files)</label>
                             <div class="input-group image_div">
                                 <div class="custom-file">             
@@ -206,11 +214,10 @@
                 event_name:{
                     required: true
                 },
-                aadhar_number:{
+                yatrik_id:{
                     required: true,
                     digits: true,
-                    minlength: 12,
-                    maxlength: 12
+                    maxlength: 5
                 },
                 name:{
                     required: true
@@ -222,8 +229,11 @@
                     required: true,
                     digits: true
                 },
-                religious_method:{
-                    required: true
+                aadhar_number:{
+                    required: true,
+                    digits: true,
+                    minlength: 12,
+                    maxlength: 12
                 },
                 address: {
                     required: true
@@ -269,6 +279,9 @@
                 present_penance: {
                     required: true
                 },
+                religious_method:{
+                    required: true
+                },
                 @if(!$yatrik->profile_photo)
                     image: {
                         required: true,
@@ -281,8 +294,8 @@
                 event_name:{
                     required: "Please select event name."
                 },
-                aadhar_number:{
-                    required: "Please enter aadhar number."
+                yatrik_id:{
+                    required: "Please enter yatrik id."
                 },
                 name:{
                     required: "Please enter name."
@@ -293,8 +306,8 @@
                 age:{
                     required: "Please enter age."
                 },
-                religious_method:{
-                    required: "Please enter religious method."
+                aadhar_number:{
+                    required: "Please enter aadhar number."
                 },
                 address: {
                     required: "Please enter address."
@@ -335,6 +348,9 @@
                 },
                 present_penance: {
                     required: "Please enter present penance."
+                },
+                religious_method:{
+                    required: "Please enter religious method."
                 },
                 @if(!$yatrik->profile_photo)
                     image: {

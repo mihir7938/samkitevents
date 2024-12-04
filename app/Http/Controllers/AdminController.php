@@ -298,6 +298,7 @@ class AdminController extends Controller {
         $member_id = $randomNumber."-".substr($request->phone, -5);
         $data['member_id'] = $member_id;
         $data['event_id'] = $request->event_name;
+        $data['custom_yatrik_id'] = $request->yatrik_id;
         $data['name'] = $request->name;
         $data['gender'] = $request->gender;
         $data['age'] = $request->age;
@@ -354,6 +355,7 @@ class AdminController extends Controller {
             }
             $member_id = $yatrik->member_id;
             $data['event_id'] = $request->event_name;
+            $data['custom_yatrik_id'] = $request->yatrik_id;
             $data['name'] = $request->name;
             $data['gender'] = $request->gender;
             $data['age'] = $request->age;
@@ -446,6 +448,7 @@ class AdminController extends Controller {
                 $member_id = $randomNumber."-".substr($array['mobile_number'], -5);
                 $data['member_id'] = $member_id;
                 $data['event_id'] = $request->event_name;
+                $data['custom_yatrik_id'] = $array['yatrik_id'];
                 $data['name'] = $array['name'];
                 $data['gender'] = $array['gender'];
                 $data['age'] = $array['age'];
@@ -505,12 +508,7 @@ class AdminController extends Controller {
     {
         $yatriks = $this->yatrikService->fetchYatriksByEvent($request->event_id);
         $days = $this->dayService->fetchDaysByEvent($request->event_id);
-        $yatra = $this->yatraService->fetchYatraByEvent($request->event_id);
-        $day_array = [];
-        foreach($yatra as $yt) {
-            $day_array[] = $yt->day_id;
-        }
-        return view('admin.yatriks.fetch-yatriks')->with('yatriks', $yatriks)->with('days', $days)->with('event_id', $request->event_id)->with('day_array', $day_array)->render();
+        return view('admin.yatriks.fetch-yatriks')->with('yatriks', $yatriks)->with('days', $days)->with('event_id', $request->event_id)->render();
     }
     public function saveAssignYatriks(Request $request)
     {
