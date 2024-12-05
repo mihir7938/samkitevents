@@ -103,6 +103,39 @@
         $(document).on('change', '#selectAllCheckbox', function(){
             $('.checkboxes').prop('checked', $(this).prop('checked'));
         });
+        $(document).on('change', '#day_name', function(){
+            $('.loader').show();
+            if($(this).val() == '') {
+                $('#selectAllCheckbox').attr("disabled", true);
+                $('.checkboxes').attr("disabled", true);
+            } else {
+                $('#selectAllCheckbox').removeAttr("disabled");
+                $('.checkboxes').removeAttr("disabled");
+            }
+            $.ajax({
+                url: "{{ route('admin.day.yatriks.fetch') }}",
+                method: "POST",
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                  'event_id' : $("#event_id").val(),
+                  'day_id' : $(this).val(),
+                },
+                success: function (response) {
+                  $('.loader').hide();
+                  $('.checkboxes').prop('checked', false);
+                  if($(response.data).length == $('.checkboxes').length) {
+                      $('#selectAllCheckbox').prop('checked', true);
+                  } else {
+                      $('#selectAllCheckbox').prop('checked', false);
+                  }
+                  $.each(response.data, function(key,value){
+                      $('#yatrik_checkbox'+value.yatrik_id).prop('checked', true);
+                  });
+                },
+            });
+        });   
     });
 </script>
 @endsection

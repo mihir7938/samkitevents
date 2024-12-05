@@ -8,6 +8,7 @@ use App\Services\EventService;
 use App\Services\DayService;
 use App\Services\YatrikService;
 use App\Services\YatraService;
+use App\Models\Yatra;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -513,13 +514,19 @@ class AdminController extends Controller {
     public function saveAssignYatriks(Request $request)
     {
         try{
-            $yatriks = $this->yatrikService->fetchYatriksByEvent($request->event_id);
-            foreach($yatriks as $yatrik) {
-                $data['yatrik_id'] = $yatrik->id;
-                $data['event_id'] = $request->event_id;
-                $data['day_id'] = $request->day_name;
-                $data['created_by'] = Auth::user()->id;
-                $this->yatraService->create($data);
+            //$yatriks = $this->yatrikService->fetchYatriksByEvent($request->event_id);
+            foreach($request->yatrik_checkbox as $key => $value) {
+                $check_yatrik = $this->yatraService->checkYatrik($key, $request->event_id, $request->day_name);
+                if($check_yatrik) {
+                    $updatedata = Yatra::where('yatrik_id', $key)->where('event_id', $request->event_id)->where('day_id', $request->day_name)->update(['is_allowed' => $value, 'updated_by' => Auth::user()->id]);
+                } else {
+                    $data['yatrik_id'] = $key;
+                    $data['event_id'] = $request->event_id;
+                    $data['day_id'] = $request->day_name;
+                    $data['is_allowed'] = $value;
+                    $data['created_by'] = Auth::user()->id;
+                    $this->yatraService->create($data);
+                }
             }
             $request->session()->put('message', 'All Yatriks have been successfully assigned.');
             $request->session()->put('alert-type', 'alert-success');
@@ -529,5 +536,10 @@ class AdminController extends Controller {
             $request->session()->put('alert-type', 'alert-warning');
             return redirect()->route('admin.yatriks.assign');
         }
+    }
+    public function fetchYatriksByDay(Request $request)
+    {
+        $data = Yatra::where('event_id', $request->event_id)->where('day_id', $request->day_id)->where('is_allowed', 1)->get();
+        return response()->json(['status' => true, 'data' => $data]);
     }
 }

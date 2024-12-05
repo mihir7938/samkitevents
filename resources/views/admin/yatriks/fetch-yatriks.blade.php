@@ -1,44 +1,47 @@
 <div class="card shadow mb-4">
-    <div class="card-header">
-        <h3 class="card-title">All Yatriks</h3>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTableYatrik" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th class="text-center">All <input type="checkbox" id="selectAllCheckbox"></th>
-                        <th>Member ID</th>
-                        <th>Name</th>
-                        <th>Mobile No</th>
-                        <th>Event Name</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>Member ID</th>
-                        <th>Name</th>
-                        <th>Mobile No</th>
-                        <th>Event Name</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    @foreach($yatriks as $yatrik)
-                        <tr>
-                            <td class="text-center"><input type="checkbox" id="checkbox{{$yatrik->id}}" name="checkbox{{$yatrik->id}}" class="checkboxes"></td>
-                            <td>{{$yatrik->member_id}}</td>
-                            <td>{{$yatrik->name}}</td>
-                            <td>{{$yatrik->mobile_number}}</td>
-                            <td>{{$yatrik->event->name}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <form method="POST" action="{{route('admin.yatriks.assign.save')}}" class="form" id="assign-yatriks" enctype="multipart/form-data">
+        <div class="card-header">
+            <h3 class="card-title">All Yatriks</h3>
         </div>
-    </div>
-    <div class="card-footer">
-        <form method="POST" action="{{route('admin.yatriks.assign.save')}}" class="form" id="assign-yatriks" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTableYatrik" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">All <input type="checkbox" id="selectAllCheckbox" disabled></th>
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Mobile No</th>
+                            <th>Event Name</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Mobile No</th>
+                            <th>Event Name</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach($yatriks as $yatrik)
+                            <tr>
+                                <td class="text-center">
+                                    <input type="hidden" name="yatrik_checkbox[{{$yatrik->id}}]" value="0">
+                                    <input type="checkbox" id="yatrik_checkbox{{$yatrik->id}}" name="yatrik_checkbox[{{$yatrik->id}}]" class="checkboxes" value="1" disabled>
+                                </td>
+                                <td>{{$yatrik->member_id}}</td>
+                                <td>{{$yatrik->name}}</td>
+                                <td>{{$yatrik->mobile_number}}</td>
+                                <td>{{$yatrik->event->name}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
             @csrf
             @if (count($errors) > 0)
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -61,11 +64,11 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <input type="hidden" name="event_id" value="{{$event_id}}" />
+                        <input type="hidden" name="event_id" id="event_id" value="{{$event_id}}" />
                         <button type="submit" class="btn btn-primary" id="submitBtn">Assign Yatriks</button>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

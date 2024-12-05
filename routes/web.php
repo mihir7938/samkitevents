@@ -78,5 +78,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/yatriks/assign', [AdminController::class, 'assignYatriks'])->name('admin.yatriks.assign');
     Route::post('/fetch-yatriks', [AdminController::class, 'fetchYatriksByEvent'])->name('admin.yatriks.fetch');
     Route::post('/yatriks/assign/save', [AdminController::class, 'saveAssignYatriks'])->name('admin.yatriks.assign.save');
+    Route::post('/fetch-day-yatriks', [AdminController::class, 'fetchYatriksByDay'])->name('admin.day.yatriks.fetch');
     Route::get('/logout', [AuthController::class, 'adminLogout'])->name('admin.logout')->middleware('auth');
 });
