@@ -30,11 +30,20 @@ class YatraService
     }
     public function fetchYatriksByDay($event_id, $day_id)
     {
-        return Yatra::where('event_id', $event_id)->where('day_id', $day_id)->get();
+        return Yatra::where('event_id', $event_id)->where('day_id', $day_id)->where('is_allowed', 1)->get();
     }
     public function checkYatrik($yatrik_id, $event_id, $day_id)
     {
         $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
+        if($record) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function checkAssignYatrik($yatrik_id, $event_id, $day_id)
+    {
+        $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->where('is_allowed', 1)->first();
         if($record) {
             return true;
         } else {

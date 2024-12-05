@@ -94,7 +94,7 @@ class UserController extends Controller
                 'day_id' => $request->day_name,
             ];
             $request->session()->put('event_data', $event_data);
-            $check_yatrik = $this->yatraService->checkYatrik($member->id, $request->event_name, $request->day_name);
+            $check_yatrik = $this->yatraService->checkAssignYatrik($member->id, $request->event_name, $request->day_name);
             if($check_yatrik) {
                 $check_attendance = $this->yatraService->checkAttendance($member->id, $request->event_name, $request->day_name);
                 if(!$check_attendance) {
