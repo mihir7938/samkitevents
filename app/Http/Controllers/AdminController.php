@@ -224,7 +224,19 @@ class AdminController extends Controller {
             if(!$event){
                 throw new BadRequestException('Invalid Request id.');
             }
-            $event->event_all_days()->delete();
+            $deleted = [
+                'deleted_by' => Auth::user()->id,
+                'deleted_at' => now(),
+            ];
+            $event->event_all_yatras()->update(
+                $deleted
+            );
+            $event->event_all_yatriks()->update(
+                $deleted
+            );
+            $event->event_all_days()->update(
+                $deleted
+            );
             $this->eventService->delete($event);
             $request->session()->put('message', 'Event has been deleted successfully.');
             $request->session()->put('alert-type', 'alert-success');

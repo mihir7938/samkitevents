@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Yatrik extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'yatriks';
     public $timestamps = true;
@@ -43,6 +45,7 @@ class Yatrik extends Model
         'qr_code',
         'created_by',
         'updated_by',
+        'deleted_by',
     ];
 
     public function event()

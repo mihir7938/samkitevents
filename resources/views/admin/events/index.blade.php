@@ -39,7 +39,7 @@
                                     <a href="{{route('admin.events.edit', ['id' => $event->id])}}" class="btn btn-outline-primary btn-circle">
                                         <i class="fas fa-pen"></i>
                                     </a>
-                                    <a href="{{route('admin.events.delete', ['id' => $event->id])}}" class="btn btn-outline-danger btn-circle">
+                                    <a href="{{route('admin.events.delete', ['id' => $event->id])}}" class="btn btn-outline-danger btn-circle" onClick="return confirmAction();">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
@@ -56,4 +56,20 @@
     </div>
 @endsection
 @section('footer')
+<script type="text/javascript">
+    function confirmAction(){
+        if(prompt("Are you sure want to delete (Type 'Yes' to confirm)", '') == 'Yes') {
+            return confirmDelete();
+        } else {
+            return false;
+        }
+    }
+    function confirmDelete() {
+        if(prompt("Event data will be deleted permanently (Type 'Yes' to confirm)", '') == 'Yes') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 @endsection

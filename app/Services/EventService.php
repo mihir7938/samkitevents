@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
 
 class EventService
 {
@@ -32,6 +33,8 @@ class EventService
 
     public function delete($event)
     {
-        return $event->delete($event);
+        $event->deleted_at = now();
+        $event->deleted_by = Auth::user()->id;
+        $event->save();
     }
 }
