@@ -9,6 +9,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">All <input type="checkbox" id="selectAllCheckbox" disabled></th>
+                            <th>Gift</th>
                             <th>Member ID</th>
                             <th>Name</th>
                             <th>Mobile No</th>
@@ -18,6 +19,7 @@
                     <tfoot>
                         <tr>
                             <th></th>
+                            <th>Gift</th>
                             <th>Member ID</th>
                             <th>Name</th>
                             <th>Mobile No</th>
@@ -30,6 +32,9 @@
                                 <td class="text-center">
                                     <input type="hidden" name="yatrik_checkbox[{{$yatrik->id}}]" value="0">
                                     <input type="checkbox" id="yatrik_checkbox{{$yatrik->id}}" name="yatrik_checkbox[{{$yatrik->id}}]" class="checkboxes" value="1" disabled>
+                                </td>
+                                <td class="text-center">
+                                    <span id="yatrik_gift{{$yatrik->id}}" class="yatrik_gift">-</span>
                                 </td>
                                 <td>{{$yatrik->member_id}}</td>
                                 <td>{{$yatrik->name}}</td>

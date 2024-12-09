@@ -67,9 +67,6 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="card-footer hidden">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -97,7 +94,7 @@
         console.error(e);
     });
     scanner.addListener('scan',function(c) { 
-        document.getElementById('text').value= c;
+        document.getElementById('member_id').value= c;
     });
 </script>
 <script type="text/javascript">
@@ -139,7 +136,7 @@
             },
         });
     });
-    $(document).on('click', '#information', function(){
+    /*$(document).on('click', '#information', function(){
         if($("#member_id").val() == ''){
             $("#member_id-error").html("Please enter member id.");
             $("#member_id-error").show();
@@ -169,7 +166,7 @@
                 }
             },
         });
-    });  
+    });  */
     (function() {
         $('#fetch-yatrik-form').validate({
             rules: {
@@ -193,7 +190,30 @@
                 member_id: {
                     required: "Please enter member id.",
                 }
-            }
+            },
+            submitHandler: function (form) {
+                $('.loader').show();
+                $.ajax({
+                    url: "{{ route('users.get.information') }}",
+                    method: "POST",
+                    headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                      'member_id' : $("#member_id").val(),
+                    },
+                    success: function (data) {
+                        $('.loader').hide();
+                        if(data.status == false) {
+                            $("#member_id-error").html("Member id not found.");
+                            $("#member_id-error").show();
+                        } else {
+                            $("#member_id-error").hide();
+                            form.submit();
+                        }
+                    },
+                });
+            },
         });
     })();
 </script>

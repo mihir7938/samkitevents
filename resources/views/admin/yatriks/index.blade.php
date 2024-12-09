@@ -35,7 +35,7 @@
                     <tbody>
                         @foreach($yatriks as $yatrik)
                             <tr>
-                                <td style="width: 110px;">
+                                <td style="width: 140px;">
                                     <a href="{{route('admin.yatriks.view', ['id' => $yatrik->id])}}" class="btn btn-outline-dark btn-circle">
                                         <i class="fas fa-eye"></i>
                                     </a>
@@ -44,6 +44,9 @@
                                     </a>
                                     <a href="{{route('admin.yatriks.delete', ['id' => $yatrik->id])}}" class="btn btn-outline-danger btn-circle">
                                         <i class="fas fa-trash"></i>
+                                    </a>
+                                    <a href="{{route('admin.yatriks.download', ['id' => $yatrik->id])}}" class="btn btn-outline-secondary btn-circle">
+                                        <i class="fas fa-download"></i>
                                     </a>
                                 </td>
                                 <td>{{$yatrik->name}}</td>

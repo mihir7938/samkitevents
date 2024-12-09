@@ -125,6 +125,7 @@
                 success: function (response) {
                   $('.loader').hide();
                   $('.checkboxes').prop('checked', false);
+                  $('.yatrik_gift').text('-');
                   if($(response.data).length == $('.checkboxes').length) {
                       $('#selectAllCheckbox').prop('checked', true);
                   } else {
@@ -132,6 +133,11 @@
                   }
                   $.each(response.data, function(key,value){
                       $('#yatrik_checkbox'+value.yatrik_id).prop('checked', true);
+                      if(value.gift == 1) {
+                        $('#yatrik_gift'+value.yatrik_id).html('Assigned');
+                      } else {
+                        $('#yatrik_gift'+value.yatrik_id).text('Pending');
+                      }
                   });
                 },
             });

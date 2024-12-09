@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/yatriks/update', [AdminController::class, 'updateYatrik'])->name('admin.yatriks.update.save');
     Route::get('/yatriks/delete/{id}', [AdminController::class, 'deleteYatrik'])->name('admin.yatriks.delete');
     Route::get('/yatriks/view/{id}', [AdminController::class, 'viewYatrik'])->name('admin.yatriks.view');
+    Route::get('/yatriks/download/{id}', [AdminController::class, 'downloadYatrikCard'])->name('admin.yatriks.download');
     Route::get('/yatriks/import', [AdminController::class, 'importYatriks'])->name('admin.yatriks.import');
     Route::post('/yatriks/import/save', [AdminController::class, 'saveImportYatriks'])->name('admin.yatriks.import.save');
     Route::get('/yatriks/assign', [AdminController::class, 'assignYatriks'])->name('admin.yatriks.assign');

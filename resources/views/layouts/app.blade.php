@@ -48,7 +48,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{route('login')}}">
-                            Login
+                            Admin User Login
                         </a>
                     </li>
                 @endif

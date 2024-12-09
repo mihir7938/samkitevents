@@ -12,6 +12,7 @@ use App\Models\Yatra;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use App\Imports\ImportYatrik;
 use App\Models\Event;
@@ -437,6 +438,28 @@ class AdminController extends Controller {
                 throw new BadRequestException('Invalid Request id');
             }
             return view('admin.yatriks.view')->with('yatrik', $yatrik);
+        }catch(\Exception $e){
+            $request->session()->put('message', $e->getMessage());
+            $request->session()->put('alert-type', 'alert-warning');
+            return redirect()->route('admin.yatriks');
+        }
+    }
+    public function downloadYatrikCard(Request $request, $id)
+    {
+        try{
+            $yatrik = $this->yatrikService->getYatrikById($id);
+            if(!$yatrik){
+                throw new BadRequestException('Invalid Request id');
+            }
+            $data = [
+                [
+                    'quantity' => 1,
+                    'description' => '1 Year Subscription',
+                    'price' => '129.00'
+                ]
+            ];
+            $pdf = Pdf::loadView('admin.yatriks.id-card', ['data' => $data]);
+            return $pdf->download();
         }catch(\Exception $e){
             $request->session()->put('message', $e->getMessage());
             $request->session()->put('alert-type', 'alert-warning');

@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group mt-2">
-            <button type="button" class="btn btn-outline-primary mt-4" id="information" name="information">Get Information</button>
+            <button type="submit" class="btn btn-primary mt-4">Submit</button>
         </div>
     </div>
 </div>

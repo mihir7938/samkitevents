@@ -78,7 +78,7 @@ class UserController extends Controller
         if(!$member) {
             return response()->json(['status' => false]);
         } else {
-            return view('users.get-information')->with('member', $member)->render();
+            return response()->json(['status' => true]);
         }
     }
 
