@@ -77,8 +77,20 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{route('users.attendance')}}" class="nav-link {{(Route::currentRouteName() == 'users.attendance') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-qrcode"></i>
-                                    <p>Attendance</p>
+                                    <i class="nav-icon fas fa-step-backward"></i>
+                                    <p>Start Event</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('users.attendance.end')}}" class="nav-link {{(Route::currentRouteName() == 'users.attendance.end') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-step-forward"></i>
+                                    <p>End Event</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('users.gift')}}" class="nav-link {{(Route::currentRouteName() == 'users.gift') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-gift"></i>
+                                    <p>Gift</p>
                                 </a>
                             </li>
                         @else

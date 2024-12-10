@@ -43,6 +43,10 @@ Route::group(['prefix' => 'users', 'middleware' => 'user'], function () {
     Route::post('/qrcode', [UserController::class, 'showQrCode'])->name('users.qrcode');
     Route::post('/get-information', [UserController::class, 'getInformation'])->name('users.get.information');
     Route::post('/attendance/update', [UserController::class, 'updateAttendance'])->name('users.attendance.update');
+    Route::get('/gift', [UserController::class, 'gift'])->name('users.gift');
+    Route::post('/gift/update', [UserController::class, 'updateGift'])->name('users.gift.update');
+    Route::get('/end-attendance', [UserController::class, 'endAttendance'])->name('users.attendance.end');
+    Route::post('/end-attendance/update', [UserController::class, 'updateEndAttendance'])->name('users.attendance.end.update');
 });
 
 Route::get('/adminlogin', [AuthController::class, 'getAdminLogin'])->name('admin.login');

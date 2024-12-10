@@ -50,10 +50,28 @@ class YatraService
             return false;
         }
     }
-    public function checkAttendance($yatrik_id, $event_id, $day_id)
+    public function checkStartAttendance($yatrik_id, $event_id, $day_id)
     {
         $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
-        if($record->attendance == 1) {
+        if($record->attendance == 1 && $record->start_event == 'Start') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function checkEndAttendance($yatrik_id, $event_id, $day_id)
+    {
+        $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
+        if($record->attendance == 1 && $record->end_event == 'End') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function checkGift($yatrik_id, $event_id, $day_id)
+    {
+        $record = Yatra::where('yatrik_id', $yatrik_id)->where('event_id', $event_id)->where('day_id', $day_id)->first();
+        if($record->gift == 1) {
             return true;
         } else {
             return false;
